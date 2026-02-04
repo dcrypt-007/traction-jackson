@@ -800,6 +800,18 @@
                     <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"/>
                     <polyline points="17 18 23 18 23 12"/>
                 </svg>
+            ),
+            Book: () => (
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+                </svg>
+            ),
+            Settings: () => (
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <circle cx="12" cy="12" r="3"/>
+                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+                </svg>
             )
         };
 
@@ -1016,14 +1028,19 @@
         // ========================================
 
         // Sidebar Navigation
-        function Sidebar({ currentPage, setCurrentPage, experimentCount }) {
-            const navItems = [
+        function Sidebar({ currentPage, setCurrentPage, experimentCount, integrations }) {
+            const coreItems = [
                 { id: 'dashboard', label: 'Dashboard', icon: Icons.Dashboard },
                 { id: 'experiments', label: 'Experiments', icon: Icons.Experiment, badge: experimentCount },
                 { id: 'creatives', label: 'Creative Engine', icon: Icons.Creative },
                 { id: 'campaigns', label: 'Campaign Builder', icon: Icons.Campaign },
                 { id: 'funnel', label: 'Funnel Tracker', icon: Icons.Funnel },
                 { id: 'decisions', label: 'Decision Engine', icon: Icons.Decision }
+            ];
+
+            const systemItems = [
+                { id: 'doctrine', label: 'Doctrine', icon: Icons.Book },
+                { id: 'setup', label: 'Setup', icon: Icons.Settings }
             ];
 
             return (
@@ -1035,7 +1052,7 @@
 
                     <div className="nav-section">
                         <div className="nav-label">Core</div>
-                        {navItems.map(item => (
+                        {coreItems.map(item => (
                             <div
                                 key={item.id}
                                 className={`nav-item ${currentPage === item.id ? 'active' : ''}`}
@@ -1048,12 +1065,26 @@
                         ))}
                     </div>
 
+                    <div className="nav-section">
+                        <div className="nav-label">System</div>
+                        {systemItems.map(item => (
+                            <div
+                                key={item.id}
+                                className={`nav-item ${currentPage === item.id ? 'active' : ''}`}
+                                onClick={() => setCurrentPage(item.id)}
+                            >
+                                <item.icon />
+                                {item.label}
+                            </div>
+                        ))}
+                    </div>
+
                     <div style={{ marginTop: 'auto', padding: '16px', borderTop: '1px solid var(--border)' }}>
                         <div style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>
-                            MVP Traction Bot v1.0
+                            MVP Traction Bot v1.1
                         </div>
                         <div style={{ fontSize: '11px', color: 'var(--text-secondary)', marginTop: '4px' }}>
-                            Optimize for learning, not vanity.
+                            Automate the factory, not the taste.
                         </div>
                     </div>
                 </div>
@@ -2390,12 +2421,314 @@
         }
 
         // ========================================
+        // DOCTRINE PAGE
+        // ========================================
+
+        function DoctrinePage() {
+            return (
+                <div>
+                    <div className="page-header">
+                        <h1 className="page-title">Doctrine</h1>
+                        <p className="page-subtitle">Operating philosophy and constraints for Traction Jackson</p>
+                    </div>
+
+                    <div className="card">
+                        <div style={{ padding: '8px', background: 'rgba(0, 255, 136, 0.05)', borderRadius: '8px', marginBottom: '24px', border: '1px solid rgba(0, 255, 136, 0.2)' }}>
+                            <div style={{ fontSize: '18px', fontWeight: '600', color: 'var(--accent-green)', marginBottom: '8px' }}>Prime Directive</div>
+                            <div style={{ fontSize: '15px', lineHeight: '1.6' }}>
+                                The founder must never do repetitive multi-app labor.<br/>
+                                The founder's role is <strong>judgment and direction</strong>.<br/>
+                                The system's role is <strong>coordination and execution</strong>.
+                            </div>
+                        </div>
+
+                        <h3 className="card-title" style={{ marginBottom: '16px' }}>Purpose</h3>
+                        <p style={{ color: 'var(--text-secondary)', lineHeight: '1.7', marginBottom: '24px' }}>
+                            Traction Jackson exists to convert MVP hypotheses into validated learning with maximum speed and minimum founder labor.
+                            The product is not "marketing software." It is a <strong>closed-loop experimentation system</strong> that generates, deploys, measures, and iterates on demand tests.
+                        </p>
+
+                        <div className="grid-2" style={{ marginBottom: '24px' }}>
+                            <div>
+                                <h4 style={{ marginBottom: '12px', color: 'var(--accent-blue)' }}>Founder Responsibilities</h4>
+                                <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                                    <li style={{ padding: '10px', background: 'var(--bg-dark)', borderRadius: '6px', fontSize: '14px' }}>1. Define intent (hypotheses, budgets, tone)</li>
+                                    <li style={{ padding: '10px', background: 'var(--bg-dark)', borderRadius: '6px', fontSize: '14px' }}>2. Approve/reject creatives</li>
+                                    <li style={{ padding: '10px', background: 'var(--bg-dark)', borderRadius: '6px', fontSize: '14px' }}>3. Interpret results</li>
+                                    <li style={{ padding: '10px', background: 'var(--bg-dark)', borderRadius: '6px', fontSize: '14px' }}>4. Decide next experiment / scale</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 style={{ marginBottom: '12px', color: 'var(--accent-green)' }}>System Responsibilities</h4>
+                                <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                                    <li style={{ padding: '10px', background: 'var(--bg-dark)', borderRadius: '6px', fontSize: '14px' }}>1. Generate creatives</li>
+                                    <li style={{ padding: '10px', background: 'var(--bg-dark)', borderRadius: '6px', fontSize: '14px' }}>2. Assemble videos</li>
+                                    <li style={{ padding: '10px', background: 'var(--bg-dark)', borderRadius: '6px', fontSize: '14px' }}>3. Deploy campaigns</li>
+                                    <li style={{ padding: '10px', background: 'var(--bg-dark)', borderRadius: '6px', fontSize: '14px' }}>4. Collect signals & enforce guardrails</li>
+                                    <li style={{ padding: '10px', background: 'var(--bg-dark)', borderRadius: '6px', fontSize: '14px' }}>5. Summarize learnings in plain English</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="card">
+                        <h3 className="card-title" style={{ marginBottom: '16px' }}>V1 Scope (Hard Constraints)</h3>
+                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px' }}>
+                            <div style={{ padding: '16px', background: 'var(--bg-dark)', borderRadius: '8px', textAlign: 'center' }}>
+                                <div style={{ fontSize: '13px', color: 'var(--text-secondary)', marginBottom: '4px' }}>Format</div>
+                                <div style={{ fontWeight: '600' }}>Video ads only</div>
+                            </div>
+                            <div style={{ padding: '16px', background: 'var(--bg-dark)', borderRadius: '8px', textAlign: 'center' }}>
+                                <div style={{ fontSize: '13px', color: 'var(--text-secondary)', marginBottom: '4px' }}>Platforms</div>
+                                <div style={{ fontWeight: '600' }}>Meta + TikTok</div>
+                            </div>
+                            <div style={{ padding: '16px', background: 'var(--bg-dark)', borderRadius: '8px', textAlign: 'center' }}>
+                                <div style={{ fontSize: '13px', color: 'var(--text-secondary)', marginBottom: '4px' }}>Products</div>
+                                <div style={{ fontWeight: '600' }}>One at a time</div>
+                            </div>
+                            <div style={{ padding: '16px', background: 'var(--bg-dark)', borderRadius: '8px', textAlign: 'center' }}>
+                                <div style={{ fontSize: '13px', color: 'var(--text-secondary)', marginBottom: '4px' }}>CTA</div>
+                                <div style={{ fontWeight: '600' }}>One per experiment</div>
+                            </div>
+                            <div style={{ padding: '16px', background: 'var(--bg-dark)', borderRadius: '8px', textAlign: 'center' }}>
+                                <div style={{ fontSize: '13px', color: 'var(--text-secondary)', marginBottom: '4px' }}>Approval</div>
+                                <div style={{ fontWeight: '600', color: 'var(--accent-yellow)' }}>Human required</div>
+                            </div>
+                            <div style={{ padding: '16px', background: 'var(--bg-dark)', borderRadius: '8px', textAlign: 'center' }}>
+                                <div style={{ fontSize: '13px', color: 'var(--text-secondary)', marginBottom: '4px' }}>Scaling</div>
+                                <div style={{ fontWeight: '600', color: 'var(--accent-red)' }}>No auto-scaling</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="card">
+                        <h3 className="card-title" style={{ marginBottom: '16px' }}>Canonical Unit of Work: Creative Batch</h3>
+                        <p style={{ color: 'var(--text-secondary)', lineHeight: '1.7', marginBottom: '16px' }}>
+                            All production work is organized into a <strong>Creative Batch</strong>:
+                        </p>
+                        <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', marginBottom: '16px' }}>
+                            <span className="tag tag-blue">One hypothesis</span>
+                            <span className="tag tag-blue">One audience context</span>
+                            <span className="tag tag-blue">One CTA</span>
+                            <span className="tag tag-green">Multiple video variants</span>
+                        </div>
+                        <p style={{ color: 'var(--text-secondary)', lineHeight: '1.7' }}>
+                            A Creative Batch is the <strong>only object the founder approves</strong>. The system must prevent unapproved creatives from being deployed.
+                        </p>
+                    </div>
+
+                    <div className="grid-2">
+                        <div className="card">
+                            <h3 className="card-title" style={{ marginBottom: '16px', color: 'var(--accent-green)' }}>Automate (100%)</h3>
+                            <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                                <li style={{ padding: '10px', background: 'rgba(0, 255, 136, 0.05)', borderRadius: '6px', fontSize: '14px' }}>✓ Hooks, scripts, voiceovers</li>
+                                <li style={{ padding: '10px', background: 'rgba(0, 255, 136, 0.05)', borderRadius: '6px', fontSize: '14px' }}>✓ Template population, exports</li>
+                                <li style={{ padding: '10px', background: 'rgba(0, 255, 136, 0.05)', borderRadius: '6px', fontSize: '14px' }}>✓ Uploads, naming, UTMs</li>
+                            </ul>
+                        </div>
+                        <div className="card">
+                            <h3 className="card-title" style={{ marginBottom: '16px', color: 'var(--accent-yellow)' }}>Human-in-Loop</h3>
+                            <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                                <li style={{ padding: '10px', background: 'rgba(255, 217, 61, 0.05)', borderRadius: '6px', fontSize: '14px' }}>⚡ Creative approval</li>
+                                <li style={{ padding: '10px', background: 'rgba(255, 217, 61, 0.05)', borderRadius: '6px', fontSize: '14px' }}>⚡ Hypothesis selection</li>
+                                <li style={{ padding: '10px', background: 'rgba(255, 217, 61, 0.05)', borderRadius: '6px', fontSize: '14px' }}>⚡ Scaling decisions</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div className="card">
+                        <h3 className="card-title" style={{ marginBottom: '16px' }}>Default Bias</h3>
+                        <div style={{ padding: '20px', background: 'var(--bg-dark)', borderRadius: '8px', textAlign: 'center' }}>
+                            <div style={{ fontSize: '20px', fontWeight: '600', color: 'var(--accent-green)' }}>
+                                Speed of validated learning &gt; Creative perfection
+                            </div>
+                            <div style={{ marginTop: '12px', color: 'var(--text-secondary)' }}>
+                                If the system can launch a clean experiment in hours and learn in days, it is working.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        // ========================================
+        // SETUP PAGE
+        // ========================================
+
+        function SetupPage({ integrations, setIntegrations }) {
+            const [canvaKey, setCanvaKey] = useState(integrations.canva?.apiKey || '');
+            const [canvaTemplates, setCanvaTemplates] = useState(integrations.canva?.templateIds?.join(', ') || '');
+            const [elevenLabsKey, setElevenLabsKey] = useState(integrations.elevenLabs?.apiKey || '');
+            const [elevenLabsVoices, setElevenLabsVoices] = useState(integrations.elevenLabs?.voiceIds?.join(', ') || '');
+            const [metaToken, setMetaToken] = useState(integrations.meta?.accessToken || '');
+            const [metaAdAccount, setMetaAdAccount] = useState(integrations.meta?.adAccountId || '');
+            const [metaPixel, setMetaPixel] = useState(integrations.meta?.pixelId || '');
+            const [tiktokToken, setTiktokToken] = useState(integrations.tiktok?.accessToken || '');
+            const [tiktokAdvertiser, setTiktokAdvertiser] = useState(integrations.tiktok?.advertiserId || '');
+            const [tiktokPixel, setTiktokPixel] = useState(integrations.tiktok?.pixelId || '');
+
+            const saveIntegration = (key, values) => {
+                const newIntegrations = { ...integrations, [key]: { ...integrations[key], ...values, connected: true } };
+                setIntegrations(newIntegrations);
+                localStorage.setItem('tj_integrations', JSON.stringify(newIntegrations));
+            };
+
+            const getStatus = (integration) => {
+                if (!integrations[integration]) return { status: 'Not Connected', color: 'var(--accent-red)' };
+                if (integrations[integration].connected) return { status: 'Connected', color: 'var(--accent-green)' };
+                return { status: 'Not Connected', color: 'var(--accent-red)' };
+            };
+
+            return (
+                <div>
+                    <div className="page-header">
+                        <h1 className="page-title">Setup</h1>
+                        <p className="page-subtitle">One-time integration setup for automated video deployment</p>
+                    </div>
+
+                    <div className="card">
+                        <h3 className="card-title" style={{ marginBottom: '20px' }}>Integration Status</h3>
+                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '12px' }}>
+                            {['canva', 'elevenLabs', 'meta', 'tiktok', 'tracking'].map(key => {
+                                const status = getStatus(key);
+                                const labels = { canva: 'Canva', elevenLabs: '11Labs', meta: 'Meta', tiktok: 'TikTok', tracking: 'Tracking' };
+                                return (
+                                    <div key={key} style={{ padding: '16px', background: 'var(--bg-dark)', borderRadius: '8px', textAlign: 'center' }}>
+                                        <div style={{ fontSize: '13px', color: 'var(--text-secondary)', marginBottom: '8px' }}>{labels[key]}</div>
+                                        <div style={{ fontSize: '14px', fontWeight: '600', color: status.color }}>{status.status}</div>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    </div>
+
+                    <div className="card">
+                        <h3 className="card-title" style={{ marginBottom: '4px' }}>1. Canva</h3>
+                        <p className="card-subtitle" style={{ marginBottom: '20px' }}>Video templates and API access</p>
+
+                        <div className="grid-2">
+                            <div className="form-group">
+                                <label className="form-label">API Key</label>
+                                <input type="password" className="form-input" placeholder="Enter Canva API Key" value={canvaKey} onChange={e => setCanvaKey(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label className="form-label">Template IDs (comma-separated)</label>
+                                <input type="text" className="form-input" placeholder="template1, template2, template3" value={canvaTemplates} onChange={e => setCanvaTemplates(e.target.value)} />
+                            </div>
+                        </div>
+                        <button className="btn btn-primary" onClick={() => saveIntegration('canva', { apiKey: canvaKey, templateIds: canvaTemplates.split(',').map(s => s.trim()) })}>
+                            Save Canva Settings
+                        </button>
+                    </div>
+
+                    <div className="card">
+                        <h3 className="card-title" style={{ marginBottom: '4px' }}>2. ElevenLabs (11Labs)</h3>
+                        <p className="card-subtitle" style={{ marginBottom: '20px' }}>Voice generation for video ads</p>
+
+                        <div className="grid-2">
+                            <div className="form-group">
+                                <label className="form-label">API Key</label>
+                                <input type="password" className="form-input" placeholder="Enter 11Labs API Key" value={elevenLabsKey} onChange={e => setElevenLabsKey(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label className="form-label">Voice IDs (comma-separated)</label>
+                                <input type="text" className="form-input" placeholder="voice1, voice2" value={elevenLabsVoices} onChange={e => setElevenLabsVoices(e.target.value)} />
+                            </div>
+                        </div>
+                        <button className="btn btn-primary" onClick={() => saveIntegration('elevenLabs', { apiKey: elevenLabsKey, voiceIds: elevenLabsVoices.split(',').map(s => s.trim()) })}>
+                            Save 11Labs Settings
+                        </button>
+                    </div>
+
+                    <div className="card">
+                        <h3 className="card-title" style={{ marginBottom: '4px' }}>3. Meta / Instagram</h3>
+                        <p className="card-subtitle" style={{ marginBottom: '20px' }}>Ad account and pixel configuration</p>
+
+                        <div className="grid-3">
+                            <div className="form-group">
+                                <label className="form-label">Access Token</label>
+                                <input type="password" className="form-input" placeholder="System User Access Token" value={metaToken} onChange={e => setMetaToken(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label className="form-label">Ad Account ID</label>
+                                <input type="text" className="form-input" placeholder="act_123456789" value={metaAdAccount} onChange={e => setMetaAdAccount(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label className="form-label">Pixel ID</label>
+                                <input type="text" className="form-input" placeholder="123456789" value={metaPixel} onChange={e => setMetaPixel(e.target.value)} />
+                            </div>
+                        </div>
+                        <button className="btn btn-primary" onClick={() => saveIntegration('meta', { accessToken: metaToken, adAccountId: metaAdAccount, pixelId: metaPixel })}>
+                            Save Meta Settings
+                        </button>
+                    </div>
+
+                    <div className="card">
+                        <h3 className="card-title" style={{ marginBottom: '4px' }}>4. TikTok Ads</h3>
+                        <p className="card-subtitle" style={{ marginBottom: '20px' }}>Ad account and pixel configuration</p>
+
+                        <div className="grid-3">
+                            <div className="form-group">
+                                <label className="form-label">Access Token</label>
+                                <input type="password" className="form-input" placeholder="TikTok API Access Token" value={tiktokToken} onChange={e => setTiktokToken(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label className="form-label">Advertiser ID</label>
+                                <input type="text" className="form-input" placeholder="123456789" value={tiktokAdvertiser} onChange={e => setTiktokAdvertiser(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label className="form-label">Pixel ID</label>
+                                <input type="text" className="form-input" placeholder="XXXXXXXXXX" value={tiktokPixel} onChange={e => setTiktokPixel(e.target.value)} />
+                            </div>
+                        </div>
+                        <button className="btn btn-primary" onClick={() => saveIntegration('tiktok', { accessToken: tiktokToken, advertiserId: tiktokAdvertiser, pixelId: tiktokPixel })}>
+                            Save TikTok Settings
+                        </button>
+                    </div>
+
+                    <div className="card">
+                        <h3 className="card-title" style={{ marginBottom: '4px' }}>5. Tracking Validation</h3>
+                        <p className="card-subtitle" style={{ marginBottom: '20px' }}>Verify funnel events are firing correctly</p>
+
+                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px', marginBottom: '20px' }}>
+                            {[
+                                { event: 'page_view', label: 'Page View' },
+                                { event: 'ai_interaction_start', label: 'AI Interaction' },
+                                { event: 'revenue_calc_complete', label: 'Calc Complete' },
+                                { event: 'lead_submit', label: 'Lead Submit' }
+                            ].map(({ event, label }) => (
+                                <div key={event} style={{ padding: '16px', background: 'var(--bg-dark)', borderRadius: '8px', textAlign: 'center' }}>
+                                    <div style={{ fontSize: '12px', fontFamily: 'monospace', color: 'var(--text-secondary)', marginBottom: '8px' }}>{event}</div>
+                                    <div style={{ fontSize: '14px', fontWeight: '500' }}>{label}</div>
+                                    <div style={{ marginTop: '8px', fontSize: '12px', color: integrations.tracking?.events?.[event] ? 'var(--accent-green)' : 'var(--text-secondary)' }}>
+                                        {integrations.tracking?.events?.[event] ? '✓ Verified' : '○ Pending'}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                        <button className="btn btn-secondary" onClick={() => saveIntegration('tracking', { events: { page_view: true, ai_interaction_start: true, revenue_calc_complete: true, lead_submit: true } })}>
+                            Mark All Events Validated
+                        </button>
+                    </div>
+                </div>
+            );
+        }
+
+        // ========================================
         // MAIN APP
         // ========================================
 
         function App() {
             const [currentPage, setCurrentPage] = useState('dashboard');
             const [data, setData] = useState(loadData);
+            const [integrations, setIntegrations] = useState(() => {
+                try {
+                    const stored = localStorage.getItem('tj_integrations');
+                    return stored ? JSON.parse(stored) : {};
+                } catch (e) {
+                    return {};
+                }
+            });
 
             const renderPage = () => {
                 switch (currentPage) {
@@ -2411,6 +2744,10 @@
                         return <FunnelTrackerPage data={data} setData={setData} />;
                     case 'decisions':
                         return <DecisionEnginePage data={data} />;
+                    case 'doctrine':
+                        return <DoctrinePage />;
+                    case 'setup':
+                        return <SetupPage integrations={integrations} setIntegrations={setIntegrations} />;
                     default:
                         return <DashboardPage data={data} setCurrentPage={setCurrentPage} />;
                 }
@@ -2422,6 +2759,7 @@
                         currentPage={currentPage}
                         setCurrentPage={setCurrentPage}
                         experimentCount={data.experiments.length}
+                        integrations={integrations}
                     />
                     <div className="main-content">
                         {renderPage()}
