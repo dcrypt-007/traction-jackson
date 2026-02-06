@@ -1,0 +1,18 @@
+[Unit]
+Description=TractionJackson OAuth Server
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/opt/traction-jackson
+EnvironmentFile=/opt/traction-jackson/.env
+ExecStart=/usr/bin/node canva-oauth-server.js
+Restart=always
+RestartSec=2
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=tj-oauth
+
+[Install]
+WantedBy=multi-user.target

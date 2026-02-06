@@ -137,7 +137,9 @@ function exchangeCodeForToken(code, codeVerifier, clientId, clientSecret) {
  */
 const fs = require('fs');
 const path = require('path');
-const TOKEN_STORE_PATH = path.join(__dirname, 'data', 'tokens.json');
+const TOKEN_STORE_PATH = process.env.TJ_DATA_DIR
+  ? path.join(process.env.TJ_DATA_DIR, 'tokens.json')
+  : path.join(__dirname, 'data', 'tokens.json');
 
 function saveTokensToStore(accessToken, refreshToken, expiresIn) {
     try {

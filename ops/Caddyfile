@@ -1,0 +1,14 @@
+tractionjackson.com {
+    # OAuth server (Canva callback + connect flow)
+    # handle_path strips /oauth prefix before proxying
+    # /oauth/connect  -> 127.0.0.1:3333/connect
+    # /oauth/callback -> 127.0.0.1:3333/callback
+    handle_path /oauth/* {
+        reverse_proxy 127.0.0.1:3333
+    }
+
+    # Main TractionJackson app
+    handle {
+        reverse_proxy 127.0.0.1:3000
+    }
+}

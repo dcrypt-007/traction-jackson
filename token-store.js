@@ -5,7 +5,10 @@ const fs = require('fs');
 const path = require('path');
 const https = require('https');
 
-const DEFAULT_STORE_PATH = path.join(__dirname, 'data', 'tokens.json');
+// Use TJ_DATA_DIR env var if set, otherwise fall back to ./data/
+const DEFAULT_STORE_PATH = process.env.TJ_DATA_DIR
+  ? path.join(process.env.TJ_DATA_DIR, 'tokens.json')
+  : path.join(__dirname, 'data', 'tokens.json');
 const CANVA_TOKEN_URL = 'https://api.canva.com/rest/v1/oauth/token';
 
 // Buffer time before expiry to trigger refresh (5 minutes)
