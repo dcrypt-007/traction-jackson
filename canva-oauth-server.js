@@ -20,9 +20,10 @@ const PORT = process.env.CANVA_OAUTH_PORT || process.env.OAUTH_PORT || 3333;
 const CANVA_AUTH_URL = 'https://www.canva.com/api/oauth/authorize'; // Authorize uses www.canva.com, token uses api.canva.com
 const CANVA_TOKEN_URL = 'https://api.canva.com/rest/v1/oauth/token';
 
-// Use PUBLIC_BASE_URL for remote access, fall back to localhost
+// CANVA_REDIRECT_URI takes priority (must match exactly what's registered in Canva Developer Portal)
+// Falls back to constructing from PUBLIC_BASE_URL
 const PUBLIC_BASE_URL = process.env.PUBLIC_BASE_URL || `http://127.0.0.1`;
-const REDIRECT_URI = `${PUBLIC_BASE_URL}:${PORT}/callback`;
+const REDIRECT_URI = process.env.CANVA_REDIRECT_URI || `${PUBLIC_BASE_URL}:${PORT}/callback`;
 
 // Read credentials from environment variables (set these before running)
 const DEFAULT_CLIENT_ID = process.env.CANVA_CLIENT_ID || '';
