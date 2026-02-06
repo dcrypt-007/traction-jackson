@@ -1,5 +1,9 @@
 # TractionJackson Deploy Config
 
+## GitHub
+- **Repo:** https://github.com/dcrypt-007/traction-jackson.git
+- **Username:** dcrypt-007 (NOT danrip)
+
 ## Droplet Access
 - **IP:** 104.248.180.194
 - **User:** root
