@@ -1,0 +1,31 @@
+{
+  "name": "traction-jackson",
+  "version": "1.0.0",
+  "description": "AI-Powered Video Ad Creative Generator - Canva + ElevenLabs",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "oauth": "node canva-oauth-server.js",
+    "templates": "node canva-api.js",
+    "campaign": "node campaign-manager.js",
+    "merge": "node ffmpeg-merge.js",
+    "install-ffmpeg": "npm install ffmpeg-static"
+  },
+  "keywords": [
+    "video-ads",
+    "canva",
+    "elevenlabs",
+    "ai-voiceover",
+    "creative-automation",
+    "meta-ads",
+    "ffmpeg"
+  ],
+  "author": "TractionJackson",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "optionalDependencies": {
+    "ffmpeg-static": "^5.3.0"
+  }
+}
