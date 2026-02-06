@@ -1,0 +1,85 @@
+{
+  "pending": [
+    {
+      "id": "TractionJackson Demo_1770287776472",
+      "campaignId": "TractionJackson Demo",
+      "createdAt": "2026-02-05T10:36:16.472Z",
+      "status": "pending",
+      "prompt": "Create a TikTok video ad for TractionJackson promoting AI Video Ad Generator.\n\nOpening hook: \"Stop wasting hours on video ads\"\nAddress this pain point: Creating video ads takes too long\nPresent this solution: Generate professional video ads in seconds\nCall to action: \"Try Free\"\n\nStyle: fast-paced, trendy, attention-grabbing, confident tone\nFormat: 9:16 vertical, 15-30 seconds\nTarget audience: Marketing managers",
+      "data": {
+        "brand": "TractionJackson",
+        "product": "AI Video Ad Generator",
+        "hook": "Stop wasting hours on video ads",
+        "painPoint": "Creating video ads takes too long",
+        "solution": "Generate professional video ads in seconds",
+        "cta": "Try Free",
+        "targetAudience": "Marketing managers",
+        "tone": "confident",
+        "videoStyle": "tiktok-ad"
+      },
+      "designId": null,
+      "designUrl": null
+    },
+    {
+      "id": "TractionJackson Demo_1770287776479",
+      "campaignId": "TractionJackson Demo",
+      "createdAt": "2026-02-05T10:36:16.479Z",
+      "status": "pending",
+      "prompt": "Create a TikTok video ad for TractionJackson promoting AI Video Ad Generator.\n\nOpening hook: \"What if AI could create your ads?\"\nAddress this pain point: Video editing is expensive\nPresent this solution: No editing skills required\nCall to action: \"Try Free\"\n\nStyle: fast-paced, trendy, attention-grabbing, confident tone\nFormat: 9:16 vertical, 15-30 seconds\nTarget audience: Marketing managers",
+      "data": {
+        "brand": "TractionJackson",
+        "product": "AI Video Ad Generator",
+        "hook": "What if AI could create your ads?",
+        "painPoint": "Video editing is expensive",
+        "solution": "No editing skills required",
+        "cta": "Try Free",
+        "targetAudience": "Marketing managers",
+        "tone": "confident",
+        "videoStyle": "tiktok-ad"
+      },
+      "designId": null,
+      "designUrl": null
+    },
+    {
+      "id": "TractionJackson Demo_1770287782432",
+      "campaignId": "TractionJackson Demo",
+      "createdAt": "2026-02-05T10:36:22.432Z",
+      "status": "pending",
+      "prompt": "Create a TikTok video ad for TractionJackson promoting AI Video Ad Generator.\n\nOpening hook: \"Stop wasting hours on video ads\"\nAddress this pain point: Creating video ads takes too long\nPresent this solution: Generate professional video ads in seconds\nCall to action: \"Try Free\"\n\nStyle: fast-paced, trendy, attention-grabbing, confident tone\nFormat: 9:16 vertical, 15-30 seconds\nTarget audience: Marketing managers",
+      "data": {
+        "brand": "TractionJackson",
+        "product": "AI Video Ad Generator",
+        "hook": "Stop wasting hours on video ads",
+        "painPoint": "Creating video ads takes too long",
+        "solution": "Generate professional video ads in seconds",
+        "cta": "Try Free",
+        "targetAudience": "Marketing managers",
+        "tone": "confident",
+        "videoStyle": "tiktok-ad"
+      },
+      "designId": null,
+      "designUrl": null
+    },
+    {
+      "id": "TractionJackson Demo_1770287782439",
+      "campaignId": "TractionJackson Demo",
+      "createdAt": "2026-02-05T10:36:22.439Z",
+      "status": "pending",
+      "prompt": "Create a TikTok video ad for TractionJackson promoting AI Video Ad Generator.\n\nOpening hook: \"What if AI could create your ads?\"\nAddress this pain point: Video editing is expensive\nPresent this solution: No editing skills required\nCall to action: \"Try Free\"\n\nStyle: fast-paced, trendy, attention-grabbing, confident tone\nFormat: 9:16 vertical, 15-30 seconds\nTarget audience: Marketing managers",
+      "data": {
+        "brand": "TractionJackson",
+        "product": "AI Video Ad Generator",
+        "hook": "What if AI could create your ads?",
+        "painPoint": "Video editing is expensive",
+        "solution": "No editing skills required",
+        "cta": "Try Free",
+        "targetAudience": "Marketing managers",
+        "tone": "confident",
+        "videoStyle": "tiktok-ad"
+      },
+      "designId": null,
+      "designUrl": null
+    }
+  ],
+  "completed": []
+}

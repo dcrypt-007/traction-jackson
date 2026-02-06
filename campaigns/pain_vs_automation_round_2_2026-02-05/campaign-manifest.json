@@ -1,0 +1,60 @@
+{
+  "campaign": "Pain vs Automation Round 2",
+  "templateId": "DAHAZymFs_A",
+  "directory": "/Users/danielripoll/GitHub/traction-jackson/campaigns/pain_vs_automation_round_2_2026-02-05",
+  "creatives": [
+    {
+      "index": 1,
+      "success": false,
+      "creative": null,
+      "voiceover": null,
+      "export": null,
+      "error": "Brand template with id 'DAHAZymFs_A' not found"
+    },
+    {
+      "index": 2,
+      "success": false,
+      "creative": null,
+      "voiceover": null,
+      "export": null,
+      "error": "Brand template with id 'DAHAZymFs_A' not found"
+    },
+    {
+      "index": 3,
+      "success": false,
+      "creative": null,
+      "voiceover": null,
+      "export": null,
+      "error": "Brand template with id 'DAHAZymFs_A' not found"
+    },
+    {
+      "index": 4,
+      "success": false,
+      "creative": null,
+      "voiceover": null,
+      "export": null,
+      "error": "Brand template with id 'DAHAZymFs_A' not found"
+    },
+    {
+      "index": 5,
+      "success": false,
+      "creative": null,
+      "voiceover": null,
+      "export": null,
+      "error": "Brand template with id 'DAHAZymFs_A' not found"
+    },
+    {
+      "index": 6,
+      "success": false,
+      "creative": null,
+      "voiceover": null,
+      "export": null,
+      "error": "Brand template with id 'DAHAZymFs_A' not found"
+    }
+  ],
+  "summary": {
+    "total": 6,
+    "successful": 0,
+    "failed": 6
+  }
+}

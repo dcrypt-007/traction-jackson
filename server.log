@@ -1,0 +1,26 @@
+
+╔═══════════════════════════════════════════════════════════╗
+║                                                           ║
+║   ████████╗ ██████╗  █████╗  ██████╗████████╗██╗ ██████╗  ║
+║   ╚══██╔══╝██╔══██╗██╔══██╗██╔════╝╚══██╔══╝██║██╔═══██╗ ║
+║      ██║   ██████╔╝███████║██║        ██║   ██║██║   ██║ ║
+║      ██║   ██╔══██╗██╔══██║██║        ██║   ██║██║   ██║ ║
+║      ██║   ██║  ██║██║  ██║╚██████╗   ██║   ██║╚██████╔╝ ║
+║      ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝   ╚═╝   ╚═╝ ╚═════╝  ║
+║                     JACKSON                               ║
+║                                                           ║
+║   AI Video Ad Creative Generator                          ║
+║   Server running at http://localhost:3000                 ║
+║                                                           ║
+║   Services:                                               ║
+║   • Canva: ✗ Not connected                              ║
+║   • ElevenLabs: ✗ Not connected                        ║
+║                                                           ║
+╚═══════════════════════════════════════════════════════════╝
+  
+[TJ Server] GET /api/canva/connect-url
+[TJ Server] GET /api/canva/connect-url
+[TJ Server] POST /api/disconnect/canva
+[TJ Server] POST /api/connect/canva
+[TJ Server] POST /api/connect/canva
+[TJ Server] GET /api/status
