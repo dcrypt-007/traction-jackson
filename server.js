@@ -801,18 +801,19 @@ const server = http.createServer(async (req, res) => {
       results.canva = { connected: false, reason: err.message };
     }
 
-    // 2. ElevenLabs check: is API key present AND does GET /v1/user return 200?
+    // 2. ElevenLabs check: is API key present AND does GET /v1/voices return 200?
+    //    Using /v1/voices instead of /v1/user because many keys lack user_read permission
+    //    but still work fine for TTS. /v1/voices tests actual TTS-relevant access.
     const elevenLabsKey = process.env.ELEVENLABS_API_KEY;
     if (!elevenLabsKey) {
       results.elevenlabs = { connected: false, reason: 'ELEVENLABS_API_KEY not set in environment' };
     } else {
       try {
-        // Make a real API call to verify the key works
         const checkResult = await new Promise((resolve, reject) => {
           const https = require('https');
           const req = https.request({
             hostname: 'api.elevenlabs.io',
-            path: '/v1/user',
+            path: '/v1/voices',
             method: 'GET',
             headers: { 'xi-api-key': elevenLabsKey },
             timeout: 5000
@@ -822,8 +823,9 @@ const server = http.createServer(async (req, res) => {
             res.on('end', () => {
               if (res.statusCode === 200) {
                 try {
-                  const user = JSON.parse(data);
-                  resolve({ connected: true, reason: `Authenticated as ${user.first_name || 'user'}` });
+                  const parsed = JSON.parse(data);
+                  const voiceCount = parsed.voices ? parsed.voices.length : 0;
+                  resolve({ connected: true, reason: `API key valid (${voiceCount} voices available)` });
                 } catch {
                   resolve({ connected: true, reason: 'API key valid (status 200)' });
                 }
