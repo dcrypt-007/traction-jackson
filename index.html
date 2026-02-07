@@ -907,62 +907,8 @@
             'paused': 'Paused'
         };
 
-        // Mock data
-        const mockExperiments = [
-            {
-                id: 1,
-                name: 'SlotFillr MVP Validation',
-                product: 'SlotFillr',
-                budget: 50,
-                targetCPA: 15,
-                platforms: ['instagram', 'tiktok'],
-                state: EXPERIMENT_STATES.PENDING_APPROVAL,
-                hypothesis: 'Automation framing beats pain framing',
-                videos: [
-                    { id: 1, hook: 'Your calendar has holes in it.', tags: ['Pain', 'Hook A', 'v1'], status: null },
-                    { id: 2, hook: 'What if your no-shows rebooked themselves?', tags: ['Automation', 'Hook B', 'v1'], status: null },
-                    { id: 3, hook: 'That empty 2pm slot costs you $150.', tags: ['Pain', 'Hook A', 'v2'], status: null },
-                    { id: 4, hook: 'AI that fills your calendar while you sleep.', tags: ['Automation', 'Hook C', 'v1'], status: null },
-                    { id: 5, hook: 'Empty slots don\'t reschedule themselves.', tags: ['Pain', 'Hook B', 'v1'], status: null },
-                    { id: 6, hook: 'Set it once. Watch bookings roll in.', tags: ['Automation', 'Hook A', 'v3'], status: null },
-                ]
-            },
-            {
-                id: 2,
-                name: 'Pain vs Automation Round 2',
-                product: 'SlotFillr',
-                budget: 75,
-                targetCPA: 12,
-                platforms: ['tiktok'],
-                state: EXPERIMENT_STATES.NEEDS_BATCH,
-                hypothesis: 'Urgency + automation outperforms pure pain',
-                videos: []
-            },
-            {
-                id: 3,
-                name: 'Weekend Traffic Test',
-                product: 'SlotFillr',
-                budget: 100,
-                targetCPA: 15,
-                platforms: ['instagram', 'tiktok', 'facebook'],
-                state: EXPERIMENT_STATES.LIVE,
-                hypothesis: 'Weekend posts convert 20% better',
-                videos: [],
-                results: {
-                    creatives: [
-                        { name: 'video_02', ctr: 2.3, cpc: 0.72, cpa: 12.40, status: 'winner' },
-                        { name: 'video_01', ctr: 1.6, cpc: 0.91, cpa: 15.10, status: null },
-                        { name: 'video_04', ctr: 0.5, cpc: 1.80, cpa: null, status: 'paused' },
-                    ],
-                    funnel: [
-                        { label: 'Clicks', count: 1200, dropPercent: null },
-                        { label: 'AI Interaction Started', count: 744, dropPercent: 62 },
-                        { label: 'Revenue Calc Completed', count: 357, dropPercent: 48 },
-                        { label: 'Email + Phone Submitted', count: 111, dropPercent: 31 },
-                    ]
-                }
-            }
-        ];
+        // Experiments start empty — create real ones via + New Experiment
+        const mockExperiments = [];
 
         // Helper to get next action text
         function getNextAction(state) {
@@ -1327,11 +1273,8 @@
                     }
                 } catch (error) {
                     console.error('Generation error:', error);
-                    setGenerationProgress(`Error: ${error.message}`);
-                    // Fallback to mock generation for demo
-                    setTimeout(() => {
-                        onGenerate(config);
-                    }, 1000);
+                    setGenerationProgress(`Error: ${error.message}. Check integrations and try again.`);
+                    setIsGenerating(false);
                 }
             };
 
@@ -1797,19 +1740,21 @@
 
         // Step 4: Results
         function ResultsStep({ experiment }) {
-            const results = experiment.results || {
-                creatives: [
-                    { name: 'video_02', ctr: 2.3, cpc: 0.72, cpa: 12.40, status: 'winner' },
-                    { name: 'video_01', ctr: 1.6, cpc: 0.91, cpa: 15.10, status: null },
-                    { name: 'video_04', ctr: 0.5, cpc: 1.80, cpa: null, status: 'paused' },
-                ],
-                funnel: [
-                    { label: 'Clicks', count: 1200, dropPercent: null },
-                    { label: 'AI Interaction Started', count: 744, dropPercent: 62 },
-                    { label: 'Revenue Calc Completed', count: 357, dropPercent: 48 },
-                    { label: 'Email + Phone Submitted', count: 111, dropPercent: 31 },
-                ]
-            };
+            const results = experiment.results;
+
+            if (!results || !results.creatives || results.creatives.length === 0) {
+                return (
+                    <div className="card">
+                        <div className="card-header">
+                            <h2 className="card-title">Results</h2>
+                        </div>
+                        <div style={{ textAlign: 'center', padding: '60px 20px', color: 'var(--text-muted)' }}>
+                            <p style={{ fontSize: '18px', marginBottom: '8px' }}>No results data yet</p>
+                            <p style={{ fontSize: '14px' }}>Results will appear here once the experiment collects performance data.</p>
+                        </div>
+                    </div>
+                );
+            }
 
             const biggestDrop = results.funnel.reduce((max, step, idx) => {
                 if (idx === 0) return max;
@@ -1919,42 +1864,9 @@
                     return;
                 }
 
-                // Fallback: Generate mock videos based on the config
-                const hooks = [
-                    { hook: 'Your calendar has holes in it.', tags: ['Pain', 'Hook A'] },
-                    { hook: 'What if your no-shows rebooked themselves?', tags: ['Automation', 'Hook B'] },
-                    { hook: 'That empty 2pm slot costs you $150.', tags: ['Pain', 'Hook A'] },
-                    { hook: 'AI that fills your calendar while you sleep.', tags: ['Automation', 'Hook C'] },
-                    { hook: "Empty slots don't reschedule themselves.", tags: ['Pain', 'Hook B'] },
-                    { hook: 'Set it once. Watch bookings roll in.', tags: ['Automation', 'Hook A'] },
-                    { hook: 'Stop chasing no-shows. Let AI do it.', tags: ['Automation', 'Hook D'] },
-                    { hook: 'Every empty slot is money walking out the door.', tags: ['Pain', 'Hook C'] },
-                    { hook: "Your receptionist can't work 24/7. AI can.", tags: ['Automation', 'Hook E'] },
-                    { hook: 'Cancellations happen. Refills should too.', tags: ['Automation', 'Hook F'] },
-                    { hook: 'How much did that 3pm no-show cost you?', tags: ['Pain', 'Hook D'] },
-                    { hook: 'Fill your schedule while you focus on clients.', tags: ['Automation', 'Hook G'] },
-                ];
-
-                const generatedVideos = hooks.slice(0, config.variants || 6).map((h, idx) => ({
-                    id: idx + 1,
-                    hook: h.hook,
-                    tags: [...h.tags, `v${Math.floor(idx / 2) + 1}`],
-                    status: null,
-                    // No real video data - will show placeholder
-                    videoUrl: null,
-                    thumbnailUrl: null
-                }));
-
-                const updatedExperiment = {
-                    ...experiment,
-                    state: EXPERIMENT_STATES.PENDING_APPROVAL,
-                    hypothesis: config.hypothesis || experiment.hypothesis,
-                    platforms: config.platforms || experiment.platforms,
-                    videos: generatedVideos
-                };
-
-                onUpdateExperiment(updatedExperiment);
-                setCurrentStep(1);
+                // No mock fallback — if API didn't return real videos, show error
+                setGenerationProgress('Error: No videos were generated. Check API connections and try again.');
+                return;
             };
 
             const handleApprove = (approved) => {
