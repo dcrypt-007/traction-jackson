@@ -54,9 +54,11 @@ function canvaRequest(endpoint, accessToken, method = 'GET', body = null) {
  * Export formats supported by Canva
  */
 const EXPORT_FORMATS = {
-  // Video formats
-  MP4: { type: 'mp4', quality: 'regular' },
-  MP4_HD: { type: 'mp4', quality: 'high' },
+  // Video formats (Canva API requires resolution-based quality values)
+  MP4: { type: 'mp4', quality: 'horizontal_1080p' },
+  MP4_HD: { type: 'mp4', quality: 'horizontal_1080p' },
+  MP4_4K: { type: 'mp4', quality: 'horizontal_4k' },
+  MP4_VERTICAL: { type: 'mp4', quality: 'vertical_1080p' },
   GIF: { type: 'gif' },
 
   // Image formats (for thumbnails)
@@ -82,7 +84,7 @@ async function createExportJob(accessToken, designId, format = 'mp4', options = 
 
   // For video, can specify pages/quality
   if (format === 'mp4') {
-    body.format.quality = options.quality || 'regular';  // 'regular' or 'high'
+    body.format.quality = options.quality || 'horizontal_1080p';  // horizontal_480p/720p/1080p/4k or vertical_*
     // For multi-page videos, can specify: body.format.pages = [1, 2, 3];
   }
 

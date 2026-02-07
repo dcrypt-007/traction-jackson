@@ -18,7 +18,7 @@ const DEFAULT_CONFIG = {
   outputDir: './campaigns',
   voiceId: RECOMMENDED_VOICES.sarah.id,  // Default professional female voice
   exportFormat: 'mp4',
-  exportQuality: 'high'
+  exportQuality: 'horizontal_1080p'
 };
 
 /**

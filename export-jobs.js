@@ -237,7 +237,7 @@ function createCanvaExporter(exportCDNOnly) {
       designId,
       {
         format: 'mp4',
-        quality: 'high'
+        quality: 'horizontal_1080p'
       }
     );
 
