@@ -111,7 +111,7 @@ async function waitForExport(accessToken, jobId, maxWaitMs = 300000) {
 
     console.log(`[TJ] Export status: ${job.job?.status}`);
 
-    if (job.job?.status === 'completed') {
+    if (job.job?.status === 'completed' || job.job?.status === 'success') {
       const urls = job.job?.result?.urls || [];
       console.log(`[TJ] Export completed! ${urls.length} file(s) ready`);
       return {
