@@ -102,6 +102,7 @@ async function getExportJob(accessToken, jobId) {
 
 /**
  * Wait for export to complete and return download URL
+ * Canva API response: { job: { id, status, urls: ["https://..."] } }
  */
 async function waitForExport(accessToken, jobId, maxWaitMs = 300000) {
   const startTime = Date.now();
@@ -112,7 +113,18 @@ async function waitForExport(accessToken, jobId, maxWaitMs = 300000) {
     console.log(`[TJ] Export status: ${job.job?.status}`);
 
     if (job.job?.status === 'completed' || job.job?.status === 'success') {
-      const urls = job.job?.result?.urls || [];
+      // CRITICAL FIX: Canva API returns urls directly on job object, NOT under result
+      // Canva v1 API: { job: { status: "success", urls: ["https://..."] } }
+      // Check both locations for forward-compatibility
+      const urls = job.job?.urls || job.job?.result?.urls || [];
+
+      if (urls.length === 0) {
+        // Log full response structure to help debug if URLs still missing
+        console.error('[TJ] WARNING: Export succeeded but no URLs found in response');
+        console.error('[TJ] Response keys:', JSON.stringify(Object.keys(job.job || {})));
+        console.error('[TJ] Full job object:', JSON.stringify(job.job, null, 2));
+      }
+
       console.log(`[TJ] Export completed! ${urls.length} file(s) ready`);
       return {
         status: 'completed',
@@ -133,38 +145,72 @@ async function waitForExport(accessToken, jobId, maxWaitMs = 300000) {
 }
 
 /**
- * Download exported file
+ * Follow redirects and download a file (handles up to 5 redirects)
  */
-async function downloadExport(url, outputPath) {
+function followRedirectAndDownload(url, outputPath, redirectCount = 0) {
   return new Promise((resolve, reject) => {
-    console.log(`[TJ] Downloading: ${outputPath}`);
+    if (redirectCount > 5) {
+      reject(new Error('Too many redirects'));
+      return;
+    }
 
-    const file = fs.createWriteStream(outputPath);
+    const protocol = url.startsWith('http://') ? require('http') : https;
 
-    https.get(url, (response) => {
-      if (response.statusCode === 302 || response.statusCode === 301) {
-        // Follow redirect
-        https.get(response.headers.location, (res) => {
-          res.pipe(file);
-          file.on('finish', () => {
-            file.close();
-            console.log(`[TJ] Downloaded: ${outputPath}`);
-            resolve(outputPath);
-          });
-        }).on('error', reject);
-      } else {
-        response.pipe(file);
-        file.on('finish', () => {
-          file.close();
-          console.log(`[TJ] Downloaded: ${outputPath}`);
-          resolve(outputPath);
-        });
+    protocol.get(url, (response) => {
+      // Follow redirects (301, 302, 303, 307, 308)
+      if ([301, 302, 303, 307, 308].includes(response.statusCode) && response.headers.location) {
+        console.log(`[TJ] Following redirect ${response.statusCode} → ${response.headers.location}`);
+        followRedirectAndDownload(response.headers.location, outputPath, redirectCount + 1)
+          .then(resolve)
+          .catch(reject);
+        return;
       }
+
+      // Check for HTTP errors
+      if (response.statusCode < 200 || response.statusCode >= 300) {
+        reject(new Error(`Download failed: HTTP ${response.statusCode}`));
+        return;
+      }
+
+      // Pipe to file
+      const file = fs.createWriteStream(outputPath);
+      response.pipe(file);
+
+      file.on('finish', () => {
+        file.close(() => {
+          // Verify file was actually written and has content
+          try {
+            const stats = fs.statSync(outputPath);
+            if (stats.size === 0) {
+              fs.unlinkSync(outputPath);
+              reject(new Error('Downloaded file is empty (0 bytes)'));
+            } else {
+              console.log(`[TJ] Downloaded: ${outputPath} (${(stats.size / 1024 / 1024).toFixed(1)} MB)`);
+              resolve(outputPath);
+            }
+          } catch (e) {
+            reject(new Error(`Failed to verify download: ${e.message}`));
+          }
+        });
+      });
+
+      file.on('error', (err) => {
+        fs.unlink(outputPath, () => {});
+        reject(err);
+      });
     }).on('error', (err) => {
-      fs.unlink(outputPath, () => {}); // Clean up
+      fs.unlink(outputPath, () => {});
       reject(err);
     });
   });
+}
+
+/**
+ * Download exported file
+ */
+async function downloadExport(url, outputPath) {
+  console.log(`[TJ] Downloading: ${url.substring(0, 80)}... → ${outputPath}`);
+  return followRedirectAndDownload(url, outputPath);
 }
 
 /**
@@ -174,7 +220,7 @@ async function downloadExport(url, outputPath) {
 async function exportCDNOnly(accessToken, designId, options = {}) {
   const {
     format = 'mp4',
-    quality = 'regular'
+    quality = 'horizontal_1080p'
   } = options;
 
   // Start export
@@ -194,21 +240,30 @@ async function exportCDNOnly(accessToken, designId, options = {}) {
 }
 
 /**
- * Export a design and download the result (DEPRECATED - use exportCDNOnly for stability)
+ * Export a design and download the result to server disk
  */
 async function exportAndDownload(accessToken, designId, options = {}) {
   const {
     format = 'mp4',
-    quality = 'regular',
+    quality = 'horizontal_1080p',
     outputDir = process.cwd(),
     filename = null
   } = options;
+
+  // Ensure output directory exists
+  if (!fs.existsSync(outputDir)) {
+    fs.mkdirSync(outputDir, { recursive: true });
+  }
 
   // Start export
   const exportJob = await createExportJob(accessToken, designId, format, { quality });
 
   // Wait for completion
   const result = await waitForExport(accessToken, exportJob.job.id);
+
+  if (result.urls.length === 0) {
+    throw new Error('Export completed but returned no download URLs');
+  }
 
   // Download files
   const downloads = [];
@@ -221,6 +276,8 @@ async function exportAndDownload(accessToken, designId, options = {}) {
     await downloadExport(url, outputPath);
     downloads.push(outputPath);
   }
+
+  console.log(`[TJ] Export + download complete: ${downloads.length} file(s) saved`);
 
   return {
     success: true,
@@ -294,7 +351,7 @@ async function main() {
 
     const result = await exportAndDownload(accessToken, designId, {
       format: format,
-      quality: 'high'
+      quality: 'horizontal_1080p'
     });
 
     console.log('\n=== RESULT ===');
@@ -312,8 +369,8 @@ module.exports = {
   getExportJob,
   waitForExport,
   downloadExport,
-  exportAndDownload,  // DEPRECATED - use exportCDNOnly
-  exportCDNOnly,      // PREFERRED - no server-side downloads
+  exportAndDownload,
+  exportCDNOnly,
   batchExport,
   generateThumbnail,
   EXPORT_FORMATS

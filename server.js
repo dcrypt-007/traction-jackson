@@ -639,10 +639,15 @@ function serveStaticFile(req, res, filePath) {
 
       fs.createReadStream(fullPath, { start, end }).pipe(res);
     } else {
-      res.writeHead(200, {
+      // Always advertise Accept-Ranges for video/audio so browsers know seeking works
+      const headers = {
         'Content-Length': stats.size,
         'Content-Type': contentType
-      });
+      };
+      if (contentType.startsWith('video/') || contentType.startsWith('audio/')) {
+        headers['Accept-Ranges'] = 'bytes';
+      }
+      res.writeHead(200, headers);
       fs.createReadStream(fullPath).pipe(res);
     }
   });
